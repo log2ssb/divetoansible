@@ -1,0 +1,32 @@
+---
+- name: create users via ansible on multiple machines
+  become: yes
+  hosts: ubuntu
+  vars:
+    userlist:
+      - owfr_o1
+      - owfr_o2
+      - owfr_o3
+  tasks:
+    - name: display user name
+      debug:
+        msg: "{{ item }}"
+      with_list: "{{ userlist }}"
+
+    - name: create users using loop
+      user:
+        name: "{{ item }}"
+        state: absent
+      loop:
+        - owfr_o1
+        - owfr_o2
+        - owfr_o3
+        - weloadm
+    #- name: create above user in ubuntu server
+    #  user:
+    #    name: "{{ item }}"
+    #    state: absent
+    #  with_list: "{{ userlist }}"
+
+
+...
