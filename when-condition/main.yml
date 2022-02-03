@@ -1,1 +1,38 @@
+---
+- name: install packages and start services
+  hosts: ubuntu1
+  become: yes
+  vars:
+    install_package: "ok"
+  tasks:
+    - name: update the package manager
+      apt:
+        name: "*"
+        state: latest
 
+    - name: Install packages via apt package manager
+      apt:
+        name:
+          - apache2
+          - firewalld
+        state: present
+      when: install_package == "ok"
+
+    - name: enabled httpd and firewalld package service
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: true
+      loop:
+        - apache2
+        - firewalld
+      when:
+        install_package == "ok"
+        ansible_facts['os_family'] == "Debian"
+      register: service_output
+
+    - name: show the service status
+      debug:
+        msg: "{{ service_output }}"
+
+...
