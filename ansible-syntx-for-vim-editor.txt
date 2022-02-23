@@ -1,0 +1,11 @@
+1) install vim editor in your server
+2) create .vimrc file in your user's profile
+3) add below line for ansible syntax setup for vim editor
+
+
+
+syntax on
+filetype plugin indent on
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=<:>
+
+
